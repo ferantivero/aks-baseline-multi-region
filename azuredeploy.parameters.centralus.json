@@ -6,28 +6,28 @@
       "value": "centralus"
     },
     "targetVnetResourceId": {
-      "value": "<cluster-spoke-vnet-resource-id>"
+      "value": "/subscriptions/d0d422cd-e446-42aa-a2e2-e88806508d3b/resourceGroups/rg-enterprise-networking-spokes/providers/Microsoft.Network/virtualNetworks/vnet-hub-spoke-BU0001A0042-04"
     },
     "appInstanceId": {
       "value": "04"
     },
     "clusterAdminEntraGroupObjectId": {
-      "value": "<azure-ad-aks-admin-group-object-id>"
+      "value": "26b32942-7427-4394-8ca1-f548d406e3f6"
     },
     "k8sControlPlaneAuthorizationTenantId": {
-      "value": "<tenant-id-with-user-admin-permissions>"
+      "value": "d3d0ae8a-4e12-4eb5-b57d-d3f116416798"
     },
     "clusterInternalLoadBalancerIpAddress": {
       "value": "10.244.4.4"
     },
     "logAnalyticsWorkspaceId": {
-      "value": "<log-analytics-workspace-id>"
+      "value": "/subscriptions/d0d422cd-e446-42aa-a2e2-e88806508d3b/resourceGroups/rg-bu0001a0042-shared-eastus2/providers/Microsoft.OperationalInsights/workspaces/la-g3t5fbtw7dvhq"
     },
     "containerRegistryId": {
-      "value": "<container-registry-id>"
+      "value": "/subscriptions/d0d422cd-e446-42aa-a2e2-e88806508d3b/resourceGroups/rg-bu0001a0042-shared-eastus2/providers/Microsoft.ContainerRegistry/registries/acraksg3t5fbtw7dvhq"
     },
     "gitOpsBootstrappingRepoHttpsUrl": {
-      "value": "https://github.com/<your-github-org>/aks-baseline-multi-region"
+      "value": "https://github.com/ferantivero/aks-baseline-multi-region"
     },
     "gitOpsBootstrappingRepoBranch": {
       "value": "main"
