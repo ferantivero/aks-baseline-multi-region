@@ -30,7 +30,7 @@ Following these steps will result in the provisioning of the AKS multi-cluster s
    LOGANALYTICSWORKSPACEID=$(az deployment group show -g $SHARED_RESOURCE_GROUP_NAME_AKS_MRB -n shared-svcs-stamp --query properties.outputs.logAnalyticsWorkspaceId.value -o tsv)
    CONTAINERREGISTRYID=$(az deployment group show -g $SHARED_RESOURCE_GROUP_NAME_AKS_MRB -n shared-svcs-stamp --query properties.outputs.containerRegistryId.value -o tsv)
    export ACR_NAME_AKS_MRB=$(az deployment group show -g $SHARED_RESOURCE_GROUP_NAME_AKS_MRB -n shared-svcs-stamp --query properties.outputs.containerRegistryName.value -o tsv)
-   
+
    echo LOGANALYTICSWORKSPACEID: $LOGANALYTICSWORKSPACEID
    echo CONTAINERREGISTRYID: $CONTAINERREGISTRYID
    echo ACR_NAME_AKS_MRB: $ACR_NAME_AKS_MRB
@@ -43,13 +43,13 @@ Following these steps will result in the provisioning of the AKS multi-cluster s
    If you have your own Docker Hub account, use the following command to provide the credentials during the import process:
 
    ```bash
-   az acr import --source docker.io/library/traefik:v2.11 -n $ACR_NAME_AKS_MRB --force --username YOUR_DOCKER_HUB_USERNAME --password YOUR_DOCKER_HUB_PASSWORD_OR_PERSONAL_ACCESS_TOKEN
+   az acr import --source docker.io/library/traefik:v3.1 -n $ACR_NAME_AKS_MRB --force --username YOUR_DOCKER_HUB_USERNAME --password YOUR_DOCKER_HUB_PASSWORD_OR_PERSONAL_ACCESS_TOKEN
    ```
 
    If you don't have a Docker Hub account, use the following command, but note that you might receive a rate limit failure and need to retry repeatedly:
 
    ```bash
-   az acr import --source docker.io/library/traefik:v2.11 -n $ACR_NAME_AKS_MRB --force
+   az acr import --source docker.io/library/traefik:v3.1 -n $ACR_NAME_AKS_MRB --force
    ```
 
 1. Retrieve the resource IDs of the spoke virtual networks.
@@ -133,7 +133,7 @@ Following these steps will result in the provisioning of the AKS multi-cluster s
      sed -i "s#<log-analytics-workspace-id>#${LOGANALYTICSWORKSPACEID}#g" ./azuredeploy.parameters.eastus2.json && \
      sed -i "s#<container-registry-id>#${CONTAINERREGISTRYID}#g" ./azuredeploy.parameters.eastus2.json && \
      sed -i "s#<your-github-org>#${GITHUB_USERNAME_AKS_MRB}#g" ./azuredeploy.parameters.eastus2.json
-   
+
    # Region 2
    sed -i "s#<cluster-spoke-vnet-resource-group-name>#rg-enterprise-networking-spokes#g" ./azuredeploy.parameters.centralus.json && \
      sed -i "s#<cluster-spoke-vnet-name>#${CLUSTER_SPOKE_VNET_NAME_BU0001A0042_04}#g" ./azuredeploy.parameters.centralus.json && \
@@ -189,7 +189,6 @@ Following these steps will result in the provisioning of the AKS multi-cluster s
     > Typically, base node images don't contain a suffix with a date (i.e. `AKSUbuntu-2204gen2containerd`). If the `nodeImageVersion` value looks like `AKSUbuntu-2204gen2containerd-202402.26.0` a SecurityPatch or NodeImage upgrade has been applied to the AKS node.
 
     > Node images in regions 1 and 2 could differ if recently shipped images didn't arrive in a particular region. As part of day2 activities, consider monitoring the release status by region at [AKS-Release-Tracker](https://releases.aks.azure.com/). Releases can take up to two weeks to roll out to all regions from the initial time of shipping due to Azure Safe Deployment Practices (SDP). If your AKS node images in regions 1 and 2 are required to be on the same version you should consider updating the node images manually.
-
 1. Install kubectl 1.28 or newer. (kubectl supports ±1 Kubernetes version.)
 
    ```bash
