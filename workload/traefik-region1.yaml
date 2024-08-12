@@ -132,7 +132,7 @@ data:
     # Enable gzip compression
     [http.middlewares]
       [http.middlewares.gzip-compress.compress]
-      [http.middlewares.app-gateway-snet.ipWhiteList]
+      [http.middlewares.app-gateway-snet.ipAllowList]
         sourceRange = ["10.243.5.0/24"]
     [entryPoints]
       [entryPoints.metrics]
