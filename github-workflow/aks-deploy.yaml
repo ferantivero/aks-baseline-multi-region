@@ -116,7 +116,6 @@ jobs:
         inlineScript: |
           az extension add --upgrade -n front-door
           SHARED_RESOURCE_GROUP_NAME=##SHARED_RESOURCE_GROUP_NAME_AKS_MRB##
-          APPGW_FQDN_BU0001A0042_04=$(az deployment group show -g rg-enterprise-networking-spokes -n spoke-BU0001A0042-04 --query properties.outputs.appGwFqdn.value -o tsv)
           FRONT_DOOR_NAME=$(az deployment group show -g $SHARED_RESOURCE_GROUP_NAME -n shared-svcs-stamp --query properties.outputs.frontDoorName.value -o tsv)
           FRONT_DOOR_ORIGIN_GROUP_NAME=$(az deployment group show -g $SHARED_RESOURCE_GROUP_NAME -n shared-svcs-stamp --query properties.outputs.frontDoorOriginGroupName.value -o tsv)
           az afd origin delete -g $SHARED_RESOURCE_GROUP_NAME --profile-name $FRONT_DOOR_NAME --origin-group-name $FRONT_DOOR_ORIGIN_GROUP_NAME -n afd-origin -y
