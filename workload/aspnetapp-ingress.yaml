@@ -1,0 +1,28 @@
+#  ------------------------------------------------------------
+#   Copyright (c) Microsoft Corporation.  All rights reserved.
+#   Licensed under the MIT License (MIT). See License.txt in the repo root #  for license information.
+#  ------------------------------------------------------------
+
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: aspnetapp-ingress
+  namespace: a0042
+
+spec:
+  # https://doc.traefik.io/traefik/routing/routers/#tls
+  tls: {}
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`bu0001a0042.aks-ingress.contoso.com`)
+    kind: Rule
+    services:
+    - name: aspnetapp
+      port: 80
+      namespace: a0042
+      kind: Service
+    middlewares:
+      - name: app-gateway-snet@file
+      - name: gzip-compress@file
+---

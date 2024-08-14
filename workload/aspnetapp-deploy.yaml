@@ -6,19 +6,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aspnetapp-canary-deployment
+  name: aspnetapp-deployment
   namespace: a0042
   labels:
-    app.kubernetes.io/name: aspnetapp-canary
+    app.kubernetes.io/name: aspnetapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app.kubernetes.io/name: aspnetapp-canary
+      app.kubernetes.io/name: aspnetapp
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: aspnetapp-canary
+        app.kubernetes.io/name: aspnetapp
     spec:
       automountServiceAccountToken: false
       securityContext:
@@ -32,7 +32,7 @@ spec:
               - key: app.kubernetes.io/name
                 operator: In
                 values:
-                - aspnetapp-canary
+                - aspnetapp
             topologyKey: "kubernetes.io/hostname"
         podAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -46,7 +46,7 @@ spec:
                   - traefik-ingress-ilb
               topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: aspnet-webapp-sample
+      - name: aspnetcore-webapp-sample
         image: mcr.microsoft.com/dotnet/samples:aspnetapp
         imagePullPolicy: Always
         securityContext:
@@ -77,54 +77,18 @@ spec:
   minAvailable: 75%
   selector:
     matchLabels:
-      app.kubernetes.io/name: aspnetapp-canary
+      app.kubernetes.io/name: aspnetapp
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: aspnetapp-canary
+  name: aspnetapp
   namespace: a0042
 spec:
   selector:
-    app.kubernetes.io/name: aspnetapp-canary
+    app.kubernetes.io/name: aspnetapp
   ports:
   - name: http
     port: 80
     targetPort: 8080
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: aspnetapp-ingress
-  namespace: a0042
-
-spec:
-  tls: {}
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`bu0001a0042.aks-ingress.contoso.com`)
-    kind: Rule
-    services:
-    - name: aspnetapp-wrr
-      namespace: a0042
-      kind: TraefikService
-    middlewares:
-      - name: app-gateway-snet@file
-      - name: gzip-compress@file
----
-apiVersion: traefik.io/v1alpha1
-kind: TraefikService
-metadata:
-  name: aspnetapp-wrr
-  namespace: a0042
-spec:
-  weighted:
-    services:
-      - name: aspnetapp
-        port: 80
-        weight: 3
-      - name: aspnetapp-canary
-        port: 80
-        weight: 1
 ---
