@@ -22,7 +22,7 @@ data:
       # prevent Traefik from collecting and sending stats from production
       sendanonymoususage = false
     [log]
-      level = "ERROR"
+      level = "INFO"
       format = "json"
     [api]
       dashboard = false
@@ -36,7 +36,7 @@ data:
         watch = true
       # Traefik provider that supports the native Kubernetes Ingress specification
       # and derives the corresponding dynamic configuration from it. https://kubernetes.io/docs/concepts/services-networking/ingress/
-      [providers.kubernetesingress]
+      [providers.kubernetesIngress]
         ingressClass = "traefik-internal"
         namespaces = ["a0042"]
         [providers.kubernetesIngress.ingressEndpoint]
@@ -97,9 +97,9 @@ spec:
     app.kubernetes.io/instance: traefik-ingress-ilb
   ports:
   - port: 443
-    name: "https"
-    targetPort: "websecure"
-    protocol: "TCP"
+    name: websecure
+    targetPort: 8443
+    protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
