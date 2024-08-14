@@ -1687,7 +1687,7 @@ resource agw 'Microsoft.Network/applicationGateways@2024-01-01' = {
         properties: {
           backendAddresses: [
             {
-              fqdn: aksBackendDomainName
+              fqdn: 'bu0001a0042.${aksIngressDomainName}'
             }
           ]
         }
