@@ -93,9 +93,9 @@ spec:
     app.kubernetes.io/instance: traefik-ingress-ilb
   ports:
   - port: 443
-    name: "https"
-    targetPort: "websecure"
-    protocol: "TCP"
+    name: websecure
+    targetPort: 8443
+    protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
