@@ -1,4 +1,4 @@
-#https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
+#https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
 kind: ServiceAccount
 apiVersion: v1
 metadata:
@@ -21,10 +21,18 @@ rules:
       - ""
     resources:
       - services
-      - endpoints
       - secrets
+      - nodes
     verbs:
       - get
+      - list
+      - watch
+  - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslice
+      - endpointslices
+    verbs:
       - list
       - watch
   - apiGroups:
@@ -46,7 +54,6 @@ rules:
       - update
   - apiGroups:
       - traefik.io
-      - traefik.containo.us
     resources:
       - middlewares
       - middlewaretcps
@@ -57,6 +64,7 @@ rules:
       - tlsoptions
       - tlsstores
       - serverstransports
+      - serverstransporttcps
     verbs:
       - get
       - list
@@ -65,7 +73,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: traefik-watch-workloads
+  name: traefik-ingress-controller
   namespace: a0042
   labels:
     app.kubernetes.io/name: traefik-ingress-ilb
@@ -78,3 +86,4 @@ subjects:
   - kind: ServiceAccount
     name: traefik-ingress-controller
     namespace: a0042
+---
